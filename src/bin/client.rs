@@ -5,7 +5,7 @@ use bytes::Bytes;
 
 
 /// Multiple different commands are multiplexed over a single channel
-##[derive(Debug)]
+#[derive(Debug)]
 enum Command {
     Get {
         key: String,
@@ -77,12 +77,12 @@ async fn main() {
             use Command::*;
 
             match cmd {
-                Get { key } => {
+                Get { key, resp } => {
                     let res = client.get(&key).await;
                     // Ignore errors
                     let _ = resp.send(res);
                 }
-                Set { key, val } => {
+                Set { key, val, resp } => {
                     let res = client.set(&key, val).await;
                     // Ignore errors
                     // send on a oneshot channel will always fail or succeed without any form of waiting.
